@@ -1,11 +1,12 @@
 import os
 import git
+import json
 import requests
 import webbrowser
 import concurrent.futures
 from bs4 import BeautifulSoup
 
-from config import name, group
+from config import name
 
 
 def is_branch_up_to_date(branch_name):
@@ -135,4 +136,11 @@ OSES = [
 ]
 
 if __name__ == "__main__":
+	name_groups = dict()
+	with open('names.json') as json_file:
+		name_groups = json.load(json_file)
+	if name not in name_groups:
+		raise NotFoundStudentException("Wrong name")
+	group = name_groups[name]
+
 	main()
