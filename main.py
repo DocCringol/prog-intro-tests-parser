@@ -94,10 +94,10 @@ def main():
 	html = gen_page()
 
 	css = "td, th {\n\tborder: 1px solid;\n}"
-	with open("output.css", "w") as css_file:
+	with open("output.css", "w", encoding="UTF-8") as css_file:
 		css_file.write(css)
 	
-	with open("output.html", "w") as html_file:
+	with open("output.html", "w", encoding="UTF-8") as html_file:
 		html_file.write(html)
 
 	webbrowser.open_new_tab("output.html")
