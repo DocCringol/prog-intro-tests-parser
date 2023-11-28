@@ -7,6 +7,7 @@
 ## New features
 - concurrency
 - update checker
+- automatical group filling
 
 ## Installation
 
