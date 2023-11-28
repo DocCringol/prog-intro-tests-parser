@@ -119,7 +119,7 @@ def gen_page():
 def main():
 	html = gen_page()
 
-	css = "td, th {\n\tborder: 1px solid;\n}"
+	css = "td.ok {\n\tbackground-color: #e5fff0;\n}\ntd.rj {\n\tbackground-color: #ffe5e5;\n}\ntd.outcome, th {\n\ttext-align: center;\n\twidth: 3.5em;\n}\ntd, th {\n\tborder-right: 1px solid black;\n\tborder-bottom: 1px solid black;\n}\ntable, td, th {\n\tborder-spacing: 0;\n}\ntd.student {\n\twhite-space: nowrap;\n}\nth:first-child, td:first-child {\n\tborder-left: 1px solid black;\n}\ntd, th {\n\tborder-right: 1px solid black;\n\tborder-bottom: 1px solid black;\n}\n"
 	with open("output.css", "w", encoding="UTF-8") as css_file:
 		css_file.write(css)
 	
@@ -137,7 +137,7 @@ OSES = [
 
 if __name__ == "__main__":
 	name_groups = dict()
-	with open('names.json') as json_file:
+	with open('names.json', encoding="UTF-8") as json_file:
 		name_groups = json.load(json_file)
 	if name not in name_groups:
 		raise NotFoundStudentException("Wrong name")
