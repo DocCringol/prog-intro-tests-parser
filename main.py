@@ -67,7 +67,7 @@ def get_logtable(url, name, group) :
 
 
 def gen_page():
-	html = "<!DOCTYPE html><html><head><link rel=\"stylesheet\" href=\"output.css\"></head><body>"
+	html = "<!DOCTYPE html><html><head><link rel=\"stylesheet\" href=\"output.css\"><meta charset=\"UTF-8\"></head><body>"
 	for os in OSES:
 		table_url = f"https://www.kgeorgiy.info/upload/prog-intro/{os}/table.html"
 		log_url = f"https://www.kgeorgiy.info/upload/prog-intro/{os}/logs.html"
