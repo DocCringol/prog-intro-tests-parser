@@ -1,6 +1,7 @@
 import os
 import requests
 import webbrowser
+import concurrent.futures
 from bs4 import BeautifulSoup
 
 from config import name, group
@@ -23,8 +24,9 @@ def get_soup(url):
 		raise Exception(f"Error: Unable to retrieve content from {url}. Status code: {response.status_code}")
 
 # TODO remove name and group from table
-def get_tablerow(url, name) :
+def get_tablerow(url, name, osname):
 	soup = get_soup(url)
+	print(f"----Processing table for {osname}----")
 	header = soup.find("tr")
 	if header == None:
 		raise Exception("Unknown exception, couldn't find rows in table")
@@ -35,8 +37,9 @@ def get_tablerow(url, name) :
 		
 	return f"<table><tbody>{header}{td.find_parent('tr')}</tbody></table>"
 
-def get_logtable(url, name, group) :
+def get_logtable(url, name, group, osname):
 	soup = get_soup(url)
+	print(f"----Processing logs for {osname}----")
 	header = f"{name} ({group})"
 	stripped_url = os.path.dirname(url) + "/"
 	result = ""
@@ -65,26 +68,35 @@ def get_logtable(url, name, group) :
 
 	return f"<table><tbody>{result}</table></tbody>"
 
+def gen_tables_for_os(os):
+	html = ""
+	table_url = f"https://www.kgeorgiy.info/upload/prog-intro/{os}/table.html"
+	log_url = f"https://www.kgeorgiy.info/upload/prog-intro/{os}/logs.html"
+
+	print(f"====Processing {os}====")
+	html += f"<h1>{os}</h1>"
+	
+	with concurrent.futures.ThreadPoolExecutor() as executor:
+		table_future = executor.submit(get_tablerow, table_url, name, os)
+		log_future = executor.submit(get_logtable, log_url, name, group, os)
+		table = table_future.result()
+		log = log_future.result()
+
+	html += "<h3>table</h3>"
+	html += table
+
+	html += "<h3>log</h3>"
+	html += log
+
+	return html
+
+
 def gen_page():
 	html = "<!DOCTYPE html><html><head><link rel=\"stylesheet\" href=\"output.css\"></head><body>"
-	for os in OSES:
-		table_url = f"https://www.kgeorgiy.info/upload/prog-intro/{os}/table.html"
-		log_url = f"https://www.kgeorgiy.info/upload/prog-intro/{os}/logs.html"
-
-		print(f"----{os}----")
-		html += f"<h1>{os}</h1>"
-
-		print("TABLE")
-		html += "<h3>table</h3>"
-		table = get_tablerow(table_url, name)
-		# print(table)
-		html += table
-
-		print("LOG")
-		html += "<h3>log</h3>"
-		log = get_logtable(log_url, name, group)
-		# print(log)
-		html += log
+	with concurrent.futures.ThreadPoolExecutor() as executor:
+		results = executor.map(gen_tables_for_os, OSES)
+		for result in results:
+			html += result
 	html += "</body></html>"
 	return html
 
