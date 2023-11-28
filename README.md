@@ -4,6 +4,10 @@
 
 Поэтому прошу не осуждать за очень некачественный код и/или реализацию
 
+# New features
+- concurrency
+- update checker
+
 ## Installation
 
 Python3 must be installed (tested using 3.11.6)
