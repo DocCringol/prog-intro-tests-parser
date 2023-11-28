@@ -27,7 +27,7 @@ def get_tablerow(url, name) :
 	soup = get_soup(url)
 	header = soup.find("tr")
 	if header == None:
-		raise Exception("Uknnown exxception, couldn't find rows in table")
+		raise Exception("Unknown exception, couldn't find rows in table")
 
 	td = soup.find('td', string=name)
 	if td == None or td.find_parent('tr') == None: 
@@ -64,7 +64,6 @@ def get_logtable(url, name, group) :
 		i += 1
 
 	return f"<table><tbody>{result}</table></tbody>"
-
 
 def gen_page():
 	html = "<!DOCTYPE html><html><head><link rel=\"stylesheet\" href=\"output.css\"></head><body>"
