@@ -105,7 +105,7 @@ def gen_page():
 	html = "<!DOCTYPE html><html><head><link rel=\"stylesheet\" href=\"output.css\"><meta charset=\"UTF-8\"></head><body>"
 
 	if not is_branch_up_to_date("master"):
-		html += "<h1>New version published. And your local branch is behind. Pull the latest changes.</h1>"
+		html += "<h1 style=\"color:red;\">New version published. And your local branch is behind. Pull the latest changes.</h1>"
 
 	with concurrent.futures.ThreadPoolExecutor() as executor:
 		results = executor.map(gen_tables_for_os, OSES)
@@ -136,5 +136,3 @@ OSES = [
 
 if __name__ == "__main__":
 	main()
-
-# test)
