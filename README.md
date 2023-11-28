@@ -4,7 +4,7 @@
 
 Поэтому прошу не осуждать за очень некачественный код и/или реализацию
 
-# New features
+## New features
 - concurrency
 - update checker
 
