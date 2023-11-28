@@ -92,7 +92,7 @@ def gen_tables_for_os(os):
 
 
 def gen_page():
-	html = "<!DOCTYPE html><html><head><link rel=\"stylesheet\" href=\"output.css\"></head><body>"
+	html = "<!DOCTYPE html><html><head><link rel=\"stylesheet\" href=\"output.css\"><meta charset=\"UTF-8\"></head><body>"
 	with concurrent.futures.ThreadPoolExecutor() as executor:
 		results = executor.map(gen_tables_for_os, OSES)
 		for result in results:
