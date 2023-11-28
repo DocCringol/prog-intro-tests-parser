@@ -1,10 +1,20 @@
 import os
+import git
 import requests
 import webbrowser
 import concurrent.futures
 from bs4 import BeautifulSoup
 
 from config import name, group
+
+
+def is_branch_up_to_date(branch_name):
+    repo = git.Repo('.')
+    remote = repo.remote()
+    remote.fetch()
+    local_commit = repo.rev_parse(branch_name)
+    remote_commit = repo.rev_parse(f'origin/{branch_name}')
+    return local_commit == remote_commit
 
 
 class NotFoundStudentException(Exception):
@@ -93,6 +103,10 @@ def gen_tables_for_os(os):
 
 def gen_page():
 	html = "<!DOCTYPE html><html><head><link rel=\"stylesheet\" href=\"output.css\"><meta charset=\"UTF-8\"></head><body>"
+
+	if not is_branch_up_to_date("master"):
+		html += "<h1>New version published. And your local branch is behind. Pull the latest changes.</h1>"
+
 	with concurrent.futures.ThreadPoolExecutor() as executor:
 		results = executor.map(gen_tables_for_os, OSES)
 		for result in results:
