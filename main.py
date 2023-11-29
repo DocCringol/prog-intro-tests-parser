@@ -105,6 +105,8 @@ def gen_tables_for_os(os):
 def gen_page():
 	html = "<!DOCTYPE html><html><head><link rel=\"stylesheet\" href=\"output.css\"><meta charset=\"UTF-8\"></head><body>"
 
+	html += "<h1>По этому парсеру был создан более удобный <a href=\"http://prog-intro.ddns.net\">сайт</a>. <a href=\"https://github.com/Vaniog/prog-intro-tests-parser/tree/flask\">Github</a> "
+
 	if not is_branch_up_to_date("master"):
 		html += "<h1 style=\"color:red;\">New version published. And your local branch is behind. Pull the latest changes.</h1>"
 
